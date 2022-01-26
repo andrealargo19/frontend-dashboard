@@ -39,67 +39,62 @@ function Dashboard() {
     label: "",
     });
 
-    //total sales
-    const [totalSales, setTotalSales] = useState(0);
-    const [totalSalesPct, setTotalSalesPct] = useState({
-      color: "primary",
-      amount: "",
-      label: "",
-    });
+  //total sales
+  const [totalSales, setTotalSales] = useState(0);
+  const [totalSalesPct, setTotalSalesPct] = useState({
+    color: "primary",
+    amount: "",
+    label: "",
+  });
 
     //total sales last week
-    const [salesLastWeek, setSalesLastWeek] = useState(0);
-    const [lastWeekSalesPct, setLastWeeklSalesPct] = useState({
-      color: "info",
-      amount: "",
-      label: "",});
+  const [salesLastWeek, setSalesLastWeek] = useState(0);
+  const [lastWeekSalesPct, setLastWeeklSalesPct] = useState({
+    color: "info",
+    amount: "",
+    label: "",
+  });
 
-    //total Sales last month
-    const [salesLastMonth, setSalesLastMonth] = useState(0);
-    const [salesLastMonthPct, setSalesLastMonthPct] = useState({
-      color: "success",
-      amount: "",
-      label: "",
-    });
+  //total Sales last month
+  const [salesLastMonth, setSalesLastMonth] = useState(0);
+  const [salesLastMonthPct, setSalesLastMonthPct] = useState({
+    color: "success",
+    amount: "",
+    label: "",
+  });
 
-    //new state excel
-    const [dataExcel, setDataExcel] = useState([]);
+  //new state excel
+  const [dataExcel, setDataExcel] = useState([]);
 
-    //pieDataset
-    const [pieDataset, setPieDataset] = useState(
-      {
-      labels: [],
-      datasets: {
-      label: "",
-      backgroundColors: ["warning"],
-      data: []}
-      });
+  //pieDataset
+  const [pieDataset, setPieDataset] = useState({
+    labels: [],
+    datasets: {
+    label: "",
+    backgroundColors: ["warning"],
+    data: []}
+  });
   
-    //Barchart
-    const [Barchart, setBarchart] = useState(
-    {
-      labels: [],
-      datasets: {
-      label: "",
-      data: []}
-      });
+  //Barchart
+  const [Barchart, setBarchart] = useState({
+    labels: [],
+    datasets: {
+    label: "",
+    data: []}
+  });
 
-    //PolarChart
-    const [polarChart, setPolarChart] = useState(
-      {
-
-      labels: [],
-      datasets: {
-      label: "",
-      backgroundColors: [],
-      data: []}
-          }
-
-      );
+  //PolarChart
+  const [polarChart, setPolarChart] = useState({
+    labels: [],
+    datasets: {
+    label: "",
+    backgroundColors: [],
+    data: []}
+    }
+    );
 
     //lineChart
     const [lineChart, setLineChart] = useState(
-
       {
       labels: [],
       datasets: [
@@ -109,28 +104,24 @@ function Dashboard() {
         color:"",
         data:[]
           }
-          ]
+            ]
       }
-      );
+    );
 
-      //export CSV
-    const [exportCsv, setExportCsv] = useState ([]);
+  //export CSV
+  const [exportCsv, setExportCsv] = useState ([]);
+  //token
+  const auth_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5ZTRkMWQ3Yy0yOTA3LTRmNTgtOWU3OC0zZTFmODIwMDljMWMiLCJuYW1lIjoidGVzdDEyIiwiaWF0IjoxNjQzMTIxMzQwLCJleHAiOjE2NDMxMjg1NDB9.NanNHjuDZQWB2MfR8YwsVfs7cEoPJwAy_wOnbqKIC50';
 
-    //token
-      const auth_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5ZTRkMWQ3Yy0yOTA3LTRmNTgtOWU3OC0zZTFmODIwMDljMWMiLCJuYW1lIjoidGVzdDEyIiwiaWF0IjoxNjQzMTIxMzQwLCJleHAiOjE2NDMxMjg1NDB9.NanNHjuDZQWB2MfR8YwsVfs7cEoPJwAy_wOnbqKIC50';
-    
-
-      const getInfoBack = useCallback(async () => {
-
-      await fetch('http://localhost:4000/api/customers/total_clients', {
+  const getInfoBack = useCallback(async () => {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/customers/total_clients', {
       headers: {
-        'x-token-auth':auth_token,
-        }
+      'x-token-auth':auth_token,
+              }
+              
     })
-
     .then(resp => resp.json())
     .then(clients_json => {
-
       const clients = clients_json.total_clients;
       const goalClients = 1200;
       const goalClientsPct = (clients/goalClients) * 100;
@@ -140,19 +131,17 @@ function Dashboard() {
           color: "warning",
           amount: "%" + goalClientsPct.toString(),
           label: "of " + goalClients.toString() + " goals",
-        }
-       );
-        });
+          }
+      );
+    });
   
-
-    await fetch('http://localhost:4000/api/sales/total', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/total', {
       headers: {
         'x-token-auth': auth_token,
-      }
+              }
     })
     .then(resp => resp.json())
     .then(sales_json => {
-
       const totalSales = sales_json.total_sales;
       const goalSales = 10000;
       const goalSalesPct = (totalSales/goalSales) * 100;
@@ -162,46 +151,39 @@ function Dashboard() {
         color: "info",
         amount: "%" + goalSalesPct.toString(),
         label: "of " + goalSales.toString() + " goals",
-      }
+        }
       );
-      });
+    });
   
 
-    await fetch('http://localhost:4000/api/sales/lastweek', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/lastweek', {
       headers: {
         'x-token-auth': auth_token,
-      }
+              }
     })    
-
-
     .then(resp => resp.json())
     .then(salesLastWeek_json => {
-
       const totalSalesLastWeek = salesLastWeek_json.lastweek_sales.length;
       const goalSales = 1000;
       const goalSalesPct = (totalSalesLastWeek/goalSales) * 100;
       setSalesLastWeek(totalSalesLastWeek);
       setExportCsv(salesLastWeek_json.lastweek_sales);
       setLastWeeklSalesPct(
-              {
-              color: "info",
-              amount: "%" + goalSalesPct.toString(),
-              label: "of " + goalSales.toString() + " goals",
-              }
-            );
-            });
+        {
+        color: "info",
+        amount: "%" + goalSalesPct.toString(),
+        label: "of " + goalSales.toString() + " goals",
+        }
+      );
+    });
      
-
-    await fetch('http://localhost:4000/api/sales/lastmonth', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/lastmonth', {
       headers: {
         'x-token-auth':auth_token,
-      }
+              }
       }) 
-
     .then(resp => resp.json())
     .then(salesLastMonth_json => {
-
-
       let shipsDates = [];
       let salesMonthValues = [];
       const totalSalesLastMonth = salesLastMonth_json.lastmonth_sales.length;
@@ -209,48 +191,43 @@ function Dashboard() {
       const goalSalesPct = (totalSalesLastMonth/goalSales) * 100;
       setSalesLastMonth(totalSalesLastMonth);
       setSalesLastMonthPct(
-          {
-            color: "info",
-            amount: "%" + goalSalesPct.toString(),
-            label: "of " + goalSales.toString() + " goals",
-          }
-        );
+        {
+          color: "info",
+          amount: "%" + goalSalesPct.toString(),
+          label: "of " + goalSales.toString() + " goals",
+        }
+      );
       salesLastMonth_json.lastmonth_sales.map(salestime => {
         shipsDates.push(salestime.Ship_Date);
         salesMonthValues.push(salestime.Sales);
       });  
 
-
       setLineChart({
         labels: shipsDates,
         datasets: [
-            {
-          label: "",
-          color:"warning",
-          data: salesMonthValues
-            }
-            ]
-          }); 
-          });
+          {
+            label: "",
+            color:"warning",
+            data: salesMonthValues
+          }
+        ]
+      }); 
+    });
   
-
-
-      await fetch('http://localhost:4000/api/sales/regions', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/regions', {
       headers: {
         'x-token-auth':auth_token,
-        } 
+              } 
       }) 
-
       .then(resp => resp.json())
       .then(regions_json => {
-
       let regionsNames = [];
       let regionsValues = [];
         regions_json.region_sales.map(region => {
         regionsNames.push(region.Region);
         regionsValues.push(region.total_sales);
 
-          });  
+        });  
 
       setPieDataset({
           labels: regionsNames,
@@ -258,22 +235,16 @@ function Dashboard() {
           label: "",
           backgroundColors: ["info", "warning", "primary", "success"],
           data: regionsValues}
-        });   
-          });
+      });   
+     });
     
-
-
-
-    await fetch('http://localhost:4000/api/sales/states', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/states', {
       headers: {
         'x-token-auth':auth_token,
       } 
     })
-
     .then(resp => resp.json())
     .then(states_json => {
-
-
       let statesNames = [];
       let quantityValues = [];
       states_json.states_sales.map(state => {
@@ -281,29 +252,23 @@ function Dashboard() {
         quantityValues.push(state.quantity);
       });    
 
-
       setBarchart({
         labels: statesNames,
         datasets: {
         label: "",
         data: quantityValues}
-        }); 
-        });
+      }); 
+    });
 
-  
-      await fetch('http://localhost:4000/api/sales/segment', {
+    await fetch('https://limitless-shelf-58299.herokuapp.com/api/sales/segment', {
       headers: {
         'x-token-auth':auth_token,
         }
       })
-  
-        .then(resp => resp.json())
-        .then(segment_json => {
-
-
+      .then(resp => resp.json())
+      .then(segment_json => {
         let segmentNames = [];
         let salesValues = [];
-  
         segment_json.segment_sales.map(segment => {
         segmentNames.push(segment.Segment);
         salesValues.push(segment.total_sales);
@@ -326,9 +291,9 @@ function Dashboard() {
   },[getInfoBack]);
 
 
-    const { sales, tasks } = reportsLineChartData;
-    const headers = [
-  { label: "Customer_name", key: 'Customer_name' },
+  const { sales, tasks } = reportsLineChartData;
+  const headers = [
+    { label: "Customer_name", key: 'Customer_name' },
     { label: "Product_name", key: 'Product_name' },
     { label: "Date", key: 'Date' },
     { label: "Order_ID", key: 'Order_ID' },
@@ -342,18 +307,18 @@ function Dashboard() {
     { label: "Unit_Price", key: 'Unit_Price' },
     { label: "Zip_Code", key: 'Zip_Code' },
     { label: "Row_ID", key: 'Row_ID' },
-        ]
+  ]
 
 
-    const csvReport = {
-      filename: "Report.csv",
-      headers:headers,
-      data:exportCsv
-      };
+  const csvReport = {
+    filename: "Report.csv",
+    headers:headers,
+    data:exportCsv
+  };
 
-        return (
-        <DashboardLayout>
-          <DashboardNavbar />
+    return (
+      <DashboardLayout>
+        <DashboardNavbar />
           <MDButton
             variant="gradient"
             color="warning">
@@ -367,7 +332,6 @@ function Dashboard() {
           </MDButton>
             <MDBox py={3}>
             <Grid container spacing={3}>
-
               <Grid item xs={12} md={6} lg={3}>
                 <MDBox mb={1.5}>
                 <ComplexStatisticsCard
@@ -376,76 +340,71 @@ function Dashboard() {
                   title="Total Sales"
                   count={totalSales}
                   percentage={totalSalesPct}
-              />
-                  </MDBox>
-                </Grid>
-
-    <Grid item xs={12} md={6} lg={3}>
-      <MDBox mb={1.5}>
-        <ComplexStatisticsCard
-              icon="leaderboard"
-              title="Total Clients"
-              count={countClients}
-              percentage={countClientsPct}
-            />
-        </MDBox>
-    </Grid>
-
-  <Grid item xs={12} md={6} lg={3}>
-    <MDBox mb={1.5}>
-      <ComplexStatisticsCard
-              color="success"
-              icon="store"
-              title="Sales last week"
-              count={salesLastWeek}
-              percentage={lastWeekSalesPct}
-            />
-        </MDBox>
-      </Grid>
-
-      <Grid item xs={12} md={6} lg={3}>
-      <MDBox mb={1.5}>
-        <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Sales last month"
-                count={salesLastMonth}
-                percentage={salesLastMonthPct}
-            />
-            </MDBox>
+                />
+                </MDBox>
               </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                  icon="leaderboard"
+                  title="Total Clients"
+                  count={countClients}
+                  percentage={countClientsPct}
+                />
+                </MDBox>
               </Grid>
+
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                  color="success"
+                  icon="store"
+                  title="Sales last week"
+                  count={salesLastWeek}
+                  percentage={lastWeekSalesPct}
+                />
+                </MDBox>
+              </Grid>
+
+              <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <ComplexStatisticsCard
+                  color="primary"
+                  icon="person_add"
+                  title="Sales last month"
+                  count={salesLastMonth}
+                  percentage={salesLastMonthPct}
+                />
+              </MDBox>
+              </Grid>
+            </Grid>
             <MDBox mt={4.5}>
               <Grid container spacing={3}>
-              
                 <Grid item xs={12} md={6} lg={6}>
                   <MDBox mb={3}>
-                    <ReportsBarChart
-                      color="info"
-                      title="Sales by states"
-                      description="Latest sales Performance"
-                      date="campaign sent 2 days ago"
-                      chart={Barchart}
-                    />
+                  <ReportsBarChart
+                    color="info"
+                    title="Sales by states"
+                    description="Latest sales Performance"
+                    date="campaign sent 2 days ago"
+                    chart={Barchart}
+                  />
                   </MDBox>
                 </Grid> 
-                  
                 <Grid item xs={12} md={6} lg={6}>
                   <MDBox mb={3}>
                     <DefaultLineChart
                     icon={{ color: "info", component: "leaderboard" }}
                     title="Line Sales Last Month"
-                      description="Latest Sales Performance"
+                    description="Latest Sales Performance"
                     chart={lineChart}
                    />
                    </MDBox>
                   </Grid>
                 </Grid>
                   </MDBox>
-
                     <MDBox mt={4.5}>
                       <Grid container spacing={3}>
-
                       <Grid item xs={12} md={6} lg={6}>
                     <MDBox mb={3}>
                     <PieChart
@@ -456,7 +415,6 @@ function Dashboard() {
                       />
                     </MDBox>
                   </Grid>
-
                       <Grid item xs={12} md={6} lg={6}>
                       <MDBox mb={3}>
                         <PolarChart
@@ -467,13 +425,12 @@ function Dashboard() {
                             />
                         </MDBox>
                         </Grid>
-
                         </Grid>
                         </MDBox>
                       </MDBox>
                         <Footer />
                     </DashboardLayout>
-      );
+    );
 }
 
 export default Dashboard;
